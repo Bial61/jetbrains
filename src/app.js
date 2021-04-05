@@ -1,8 +1,7 @@
 const path = require('path')
 const express = require('express')
 const hbs= require ('hbs')
-
-
+const multer = require('multer')
 
 const {convertWordFiles} = require("convert-multiple-files");
 // const {Powerpoint,Word} =require("pdf-officegen");
@@ -24,31 +23,52 @@ hbs.registerPartials(partialPath)
 app.use(express.static(publicDirectoryPath))
 
 
-app.post('/doc',async (req,res)=>
+
+const upload = multer({
+    limits: {
+        fileSize: 10000000
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(.doc|docx)$/)) {
+            return cb(new Error('Please upload an image'))
+        }
+
+        cb(undefined, true)
+    }
+})
+
+
+app.post('/doc',upload.single('file'),async (req,res)=>
 {
 
-    res.send(req.body);
+    res.send(req.file.filename);
 
-    // try 
-    // {
-    //     await convertWordFiles(req.body.path, 'pdf', path.join(__dirname,'../'));
-    //     res.sendFile(path.join(__dirname,'../hi.pdf'),null,(err)=>
-    //     {
-    //         if(err)
-    //         {
-    //             throw new Error("Idr Error");
-    //         }else
-    //         {
-    //              //
-    //         }
-    //     })
+// const s= req.file.path;
 
-    // } catch (error) 
-    // {
-    //       res.send({
-    //           error
-    //       });    
-    // }
+// console.log(s);
+
+
+   
+//     try 
+//     {
+//         await convertWordFiles(s, 'pdf', path.join(__dirname,'../'));
+//         res.sendFile(path.join(__dirname,'../hi.pdf'),null,(err)=>
+//         {
+//             if(err)
+//             {
+//                 throw new Error("Idr Error");
+//             }else
+//             {
+//                  //
+//             }
+//         })
+
+//     } catch (error) 
+//     {
+//           res.send({
+//               error
+//           });    
+//     }
     
 
 })
@@ -64,6 +84,10 @@ app.post('/doc',async (req,res)=>
 //       })
 
 // })
+
+
+
+
 
 
 app.listen(port, () => {
