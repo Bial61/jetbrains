@@ -35,7 +35,7 @@ app.post('/doc',async (req,res)=>
         {
             if(err)
             {
-                throw new Error("Error");
+                throw new Error("Idr Error");
             }else
             {
                  //
@@ -45,7 +45,7 @@ app.post('/doc',async (req,res)=>
     } catch (error) 
     {
           res.send({
-              error:"Error"
+              error
           });    
     }
     
