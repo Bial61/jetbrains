@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const hbs= require ('hbs')
 const multer = require('multer')
+const fs= require('fs')
 
 const {convertWordFiles} = require("convert-multiple-files");
 // const {Powerpoint,Word} =require("pdf-officegen");
@@ -23,51 +24,57 @@ hbs.registerPartials(partialPath)
 app.use(express.static(publicDirectoryPath))
 
 
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "public/uploads");
+    },
+    filename: function (req, file, cb) {
+      cb(
+        null,
+        file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      );
+    },
+  });
 
 const upload = multer({
     limits: {
         fileSize: 10000000
     },
     fileFilter(req, file, cb) {
-        if (!file.originalname.match(/\.(.doc|docx)$/)) {
+        if (!file.originalname.match(/\.(doc|docx|jpeg|png)$/)) {
             return cb(new Error('Please upload an image'))
         }
 
         cb(undefined, true)
-    }
+    },
+    storage
 })
 
 
 app.post('/doc',upload.single('file'),async (req,res)=>
 {
-
-     res.send("Hi mam");
-// const s= req.file.path;
-
-// console.log(s);
-
-
    
-//     try 
-//     {
-//         await convertWordFiles(s, 'pdf', path.join(__dirname,'../'));
-//         res.sendFile(path.join(__dirname,'../hi.pdf'),null,(err)=>
-//         {
-//             if(err)
-//             {
-//                 throw new Error("Idr Error");
-//             }else
-//             {
-//                  //
-//             }
-//         })
+    try 
+    {
+        await convertWordFiles(req.file.path, 'pdf', path.join(__dirname,'../'));
+        res.sendFile(path.join(__dirname,'../hi.pdf'),null,(err)=>
+        {
+            if(err)
+            {
+                throw new Error("Idr Error");
+            }else
+            {
+                 //
+                 console.log("Done");
+            }
+        })
 
-//     } catch (error) 
-//     {
-//           res.send({
-//               error
-//           });    
-//     }
+    } catch (error) 
+    {
+          res.send({
+              error
+          });    
+    } 
     
 
 })
