@@ -55,7 +55,7 @@ app.post('/doc',upload.single('file'),async (req,res)=>
    
     try 
     {
-        await convertWordFiles(req.file.originalname, 'pdf', path.join(__dirname,'../'));
+        await convertWordFiles(req.file, 'pdf', path.join(__dirname,'../'));
         res.sendFile(path.join(__dirname,'../hi.pdf'),null,(err)=>
         {
             if(err)
