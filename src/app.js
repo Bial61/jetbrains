@@ -27,7 +27,7 @@ app.use(express.static(publicDirectoryPath))
 app.post('/doc',async (req,res)=>
 {
 
-    res.send("Ho gya j ");
+    res.send(req.body);
 
     // try 
     // {
