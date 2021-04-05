@@ -41,7 +41,8 @@ const upload = multer({
 app.post('/doc',upload.single('file'),async (req,res)=>
 {
 
-    res.send(req.file.filename);
+    const s= req.file.originalname;
+    res.send(s+" bbc");
 
 // const s= req.file.path;
 
