@@ -53,28 +53,28 @@ const upload = multer({
 app.post('/doc',upload.single('file'),async (req,res)=>
 {
    
-    // try 
-    // {
-    //     await convertWordFiles(req.file.path, 'pdf', path.join(__dirname,'../'));
-    //     res.sendFile(path.join(__dirname,'../hi.pdf'),null,(err)=>
-    //     {
-    //         if(err)
-    //         {
-    //             throw new Error("Idr Error");
-    //         }else
-    //         {
-    //              //
-    //              console.log("Done");
-    //         }
-    //     })
+    try 
+    {
+        await convertWordFiles(req.file.originalname, 'pdf', path.join(__dirname,'../'));
+        res.sendFile(path.join(__dirname,'../hi.pdf'),null,(err)=>
+        {
+            if(err)
+            {
+                throw new Error("Idr Error");
+            }else
+            {
+                 //
+                 console.log("Done");
+            }
+        })
 
-    // } catch (error) 
-    // {
-    //       res.send({
-    //           error
-    //       });    
-    // } 
-    //
+    } catch (error) 
+    {
+          res.send({
+              error
+          });    
+    } 
+    
 
     res.send(req.file.originalname);
 
