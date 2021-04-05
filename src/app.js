@@ -74,8 +74,9 @@ app.post('/doc',upload.single('file'),async (req,res)=>
     //           error
     //       });    
     // } 
+    //
     
-    res.send(req.file.size);
+    res.send(req.file.filename);
 
 })
 
