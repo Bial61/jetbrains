@@ -24,10 +24,10 @@ hbs.registerPartials(partialPath)
 app.use(express.static(publicDirectoryPath))
 
 
-app.get('/doc',async (req,res)=>
+app.post('/doc',async (req,res)=>
 {
 
-
+     console.log(req.body);
     try 
     {
         await convertWordFiles(path.join(__dirname, '../hi.doc'), 'pdf', path.join(__dirname,'../'));
