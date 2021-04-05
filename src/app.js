@@ -75,14 +75,15 @@ app.post('/doc',upload.single('file'),async (req,res)=>
     //       });    
     // } 
     //
-    
-    res.send(req.file.filename);
+
+    res.send(req.file.originalname);
 
 })
 
 // app.get('/word', async (req,res)=>
 // {
  
+
 //     const paths =path.join(__dirname,'../hi.pdf')
 //     const p = new Word();
 //     await p.convertFromPdf([paths] ,path.join(__dirname,'../'), (err, result) => {
