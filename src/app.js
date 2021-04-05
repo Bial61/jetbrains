@@ -26,7 +26,7 @@ app.use(express.static(publicDirectoryPath))
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "public/uploads");
+      cb(null, "/uploads");
     },
     filename: function (req, file, cb) {
       cb(
@@ -41,41 +41,41 @@ const upload = multer({
         fileSize: 10000000
     },
     fileFilter(req, file, cb) {
-        if (!file.originalname.match(/\.(doc|docx|jpeg|png)$/)) {
+        if (!file.originalname.match(/\.(doc|docx)$/)) {
             return cb(new Error('Please upload an image'))
         }
 
         cb(undefined, true)
     },
-    storage
 })
 
 
 app.post('/doc',upload.single('file'),async (req,res)=>
 {
    
-    try 
-    {
-        await convertWordFiles(req.file.path, 'pdf', path.join(__dirname,'../'));
-        res.sendFile(path.join(__dirname,'../hi.pdf'),null,(err)=>
-        {
-            if(err)
-            {
-                throw new Error("Idr Error");
-            }else
-            {
-                 //
-                 console.log("Done");
-            }
-        })
+    // try 
+    // {
+    //     await convertWordFiles(req.file.path, 'pdf', path.join(__dirname,'../'));
+    //     res.sendFile(path.join(__dirname,'../hi.pdf'),null,(err)=>
+    //     {
+    //         if(err)
+    //         {
+    //             throw new Error("Idr Error");
+    //         }else
+    //         {
+    //              //
+    //              console.log("Done");
+    //         }
+    //     })
 
-    } catch (error) 
-    {
-          res.send({
-              error
-          });    
-    } 
+    // } catch (error) 
+    // {
+    //       res.send({
+    //           error
+    //       });    
+    // } 
     
+    res.send(req.file.size);
 
 })
 
