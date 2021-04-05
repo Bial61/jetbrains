@@ -27,27 +27,28 @@ app.use(express.static(publicDirectoryPath))
 app.post('/doc',async (req,res)=>
 {
 
-     console.log(...req.body);
-    try 
-    {
-        await convertWordFiles(...req.body, 'pdf', path.join(__dirname,'../'));
-        res.sendFile(path.join(__dirname,'../hi.pdf'),null,(err)=>
-        {
-            if(err)
-            {
-                throw new Error("Idr Error");
-            }else
-            {
-                 //
-            }
-        })
+    res.send("Ho gya j ");
 
-    } catch (error) 
-    {
-          res.send({
-              error
-          });    
-    }
+    // try 
+    // {
+    //     await convertWordFiles(req.body.path, 'pdf', path.join(__dirname,'../'));
+    //     res.sendFile(path.join(__dirname,'../hi.pdf'),null,(err)=>
+    //     {
+    //         if(err)
+    //         {
+    //             throw new Error("Idr Error");
+    //         }else
+    //         {
+    //              //
+    //         }
+    //     })
+
+    // } catch (error) 
+    // {
+    //       res.send({
+    //           error
+    //       });    
+    // }
     
 
 })
