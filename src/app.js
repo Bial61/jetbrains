@@ -74,14 +74,20 @@ app.post('/doc',upload.single('file'),async (req,res)=>
    
     try 
     {
+        console.log("0");
         await convertWordFiles(path.join(__dirname,`../uploads/${req.file.originalname}`), 'pdf', path.join(__dirname,'../converted'));
+        console.log("1");
         var nameFile = req.file.originalname.split('.');
+        console.log("2");
         nameFile[0]=nameFile[0]+'.pdf';
+        console.log("3");
         console.log(nameFile[0]);
+        console.log("4");
         res.sendFile(path.join(__dirname,`../converted/${nameFile[0]}`),null,(err)=>
         {
             if(err)
             {
+                console.log("5");
                 throw new Error("Fail to send File.")
             }else
             {
@@ -90,8 +96,10 @@ app.post('/doc',upload.single('file'),async (req,res)=>
         })
 
 
+        console.log("7");
     } catch (error) 
     {
+        console.log("8");
           res.send({
               error:"Main error hy"
           });    
