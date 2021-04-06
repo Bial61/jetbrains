@@ -88,7 +88,7 @@ app.post('/doc',upload.single('file'),async (req,res)=>
     } catch (error) 
     {
           res.send({
-              error:"Main error hy ye"
+              error
           });    
     } 
     
