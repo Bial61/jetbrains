@@ -24,17 +24,29 @@ hbs.registerPartials(partialPath)
 app.use(express.static(publicDirectoryPath))
 
 
+// var storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, "/uploads");
+//     },
+//     filename: function (req, file, cb) {
+//       cb(
+//         null,
+//         file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+//       );
+//     },
+//   });
+
+
+
 var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, "/uploads");
-    },
-    filename: function (req, file, cb) {
-      cb(
-        null,
-        file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-      );
-    },
-  });
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname) //Appending .jpg
+  }
+})
+
 
 const upload = multer({
     limits: {
@@ -47,6 +59,7 @@ const upload = multer({
 
         cb(undefined, true)
     },
+    storage
 })
 
 
@@ -55,18 +68,22 @@ app.post('/doc',upload.single('file'),async (req,res)=>
    
     try 
     {
-        await convertWordFiles(req.file, 'pdf', path.join(__dirname,'../'));
-        res.sendFile(path.join(__dirname,'../hi.pdf'),null,(err)=>
+        await convertWordFiles(req.file.path, 'pdf', path.join(__dirname,'../converted'));
+        var nameFile = req.file.originalname.split('.');
+        nameFile[0]=nameFile[0]+'.pdf';
+        console.log(nameFile[0]);
+        res.sendFile(path.join(__dirname,`../converted/${nameFile[0]}`),null,(err)=>
         {
             if(err)
             {
-                throw new Error("Idr Error");
+                throw new Error(err);
             }else
             {
                  //
-                 console.log("Done");
+                 res.send("Done");
             }
         })
+
 
     } catch (error) 
     {
