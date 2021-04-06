@@ -66,7 +66,7 @@ const upload = multer({
 app.post('/doc',upload.single('file'),async (req,res)=>
 {
 
-    res.send(re.file.fileSize);
+    res.send("Hi");
    
     // try 
     // {
