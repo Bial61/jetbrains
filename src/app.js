@@ -67,9 +67,7 @@ app.post('/doc',upload.single('file'),async (req,res)=>
 {
 
    
-    try 
-    {
-        await convertWordFiles(path.join(__dirname,`../uploads/${req.file.originalname}`), 'pdf', path.join(__dirname,'../converted'));
+         await convertWordFiles(path.join(__dirname,`../uploads/${req.file.originalname}`), 'pdf', path.join(__dirname,'../converted'));
         var nameFile = req.file.originalname.split('.');
         nameFile[0]=nameFile[0]+'.pdf';
         console.log(nameFile[0]);
@@ -83,15 +81,6 @@ app.post('/doc',upload.single('file'),async (req,res)=>
                  //
             }
         })
-
-
-    } catch (error) 
-    {
-          res.send({
-              error
-          });    
-    } 
-    
 
 
 })
