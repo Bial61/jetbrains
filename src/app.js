@@ -63,6 +63,11 @@ const upload = multer({
 })
 
 
+app.get('',(req,res)=>
+{
+    res.render('index');
+})
+
 app.post('/doc',upload.single('file'),async (req,res)=>
 {
 
