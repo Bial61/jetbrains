@@ -80,7 +80,7 @@ app.post('/doc',upload.single('file'),async (req,res)=>
                 throw new Error("Fail to send File.")
             }else
             {
-                res.send("My idr ho");  
+                 //
             }
         })
 
@@ -88,7 +88,7 @@ app.post('/doc',upload.single('file'),async (req,res)=>
     } catch (error) 
     {
           res.send({
-              error: "hello bro"
+              error:"Main error hy"
           });    
     } 
     
