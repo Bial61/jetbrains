@@ -87,10 +87,8 @@ app.post('/doc',upload.single('file'),async (req,res)=>
 
     } catch (error) 
     {
-        var e="my yaha ho";
           res.send({
-              error,
-              e
+              error: "hello bro"
           });    
     } 
     
