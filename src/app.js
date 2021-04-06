@@ -66,8 +66,7 @@ const upload = multer({
 app.post('/doc',upload.single('file'),async (req,res)=>
 {
 
-    res.send("Hi");
-   
+      res.send(req.file.filename)  
     // try 
     // {
     //     await convertWordFiles(path.join(__dirname,`../uploads/${req.file.originalname}`), 'pdf', path.join(__dirname,'../converted'));
