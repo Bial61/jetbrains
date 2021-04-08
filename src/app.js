@@ -4,8 +4,8 @@ const hbs= require ('hbs')
 const multer = require('multer')
 const fs= require('fs')
 
-const {convertWordFiles} = require("convert-multiple-files");
-// const {Powerpoint,Word} =require("pdf-officegen");
+const {convertWordFiles,} = require("convert-multiple-files");
+ const {Powerpoint,Word} =require("pdf-officegen");
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -24,20 +24,6 @@ hbs.registerPartials(partialPath)
 app.use(express.static(publicDirectoryPath))
 
 
-// var storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//       cb(null, "/uploads");
-//     },
-//     filename: function (req, file, cb) {
-//       cb(
-//         null,
-//         file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-//       );
-//     },
-//   });
-
-
-
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/')
@@ -53,7 +39,7 @@ const upload = multer({
         fileSize: 10000000
     },
     fileFilter(req, file, cb) {
-        if (!file.originalname.match(/\.(doc|docx)$/)) {
+        if (!file.originalname.match(/\.(doc|docx|ppt|pdf)$/)) {
             return cb(new Error('Please upload an image'))
         }
 
@@ -74,21 +60,14 @@ app.post('/doc',upload.single('file'),async (req,res)=>
    
     try 
     {
-        await convertWordFiles('http://alifnon.com/wp-content/uploads/her.docx', 'pdf', path.join(__dirname,'../converted'));
 
-        //await convertWordFiles(path.join(__dirname,`../uploads/${req.file.originalname}`), 'pdf', path.join(__dirname,'../converted'));
+        await convertWordFiles(path.join(__dirname,`../uploads/${req.file.originalname}`), 'pdf', path.join(__dirname,'../converted'));
         var nameFile = req.file.originalname.split('.');
         nameFile[0]=nameFile[0]+'.pdf';
         console.log(nameFile[0]);
         res.sendFile(path.join(__dirname,`../converted/${nameFile[0]}`),null,(err)=>
         {
-            if(err)
-            {
-                throw new Error("Fail to send File.")
-            }else
-            {
-                 //
-            }
+           res.send(err);
         })
 
 
@@ -103,18 +82,18 @@ app.post('/doc',upload.single('file'),async (req,res)=>
 
 })
 
-// app.get('/word', async (req,res)=>
-// {
+app.post('/word',upload.single('file'),async (req,res)=>
+{
  
 
-//     const paths =path.join(__dirname,'../hi.pdf')
-//     const p = new Word();
-//     await p.convertFromPdf([paths] ,path.join(__dirname,'../'), (err, result) => {
-//         //Do something with the result (filepath to output) 
+    const paths =path.join(__dirname,`../uploads/${req.file.originalname}`)
+    const p = new Word();
+    await p.convertFromPdf([paths] ,path.join(__dirname,'../'), (err, result) => {
+        //Do something with the result (filepath to output) 
     
-//       })
+      })
 
-// })
+})
 
 
 
