@@ -5,7 +5,6 @@ const multer = require('multer')
 const fs= require('fs')
 
 const {convertWordFiles,} = require("convert-multiple-files");
- const {Powerpoint,Word} =require("pdf-officegen");
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -26,7 +25,7 @@ app.use(express.static(publicDirectoryPath))
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/')
+    cb(null, './uploads/')
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname) //Appending .jpg
@@ -81,21 +80,6 @@ app.post('/doc',upload.single('file'),async (req,res)=>
 
 
 })
-
-app.post('/word',upload.single('file'),async (req,res)=>
-{
- 
-
-    const paths =path.join(__dirname,`../uploads/${req.file.originalname}`)
-    const p = new Word();
-    await p.convertFromPdf([paths] ,path.join(__dirname,'../'), (err, result) => {
-        //Do something with the result (filepath to output) 
-    
-      })
-
-})
-
-
 
 
 

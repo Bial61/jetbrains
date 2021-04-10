@@ -9,7 +9,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "dependencies": 
+  {
     "convert-multiple-files": "^1.2.5",
     "express": "^4.17.1",
     "hbs": "^4.1.1",
