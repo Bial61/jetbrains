@@ -25,7 +25,7 @@ app.use(express.static(publicDirectoryPath))
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads/')
+    cb(null, 'uploads/')
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname) //Appending .jpg
@@ -53,29 +53,31 @@ app.get('/',(req,res)=>
     res.render('index');
 })
 
-app.post('/doc',upload.single('file'),async (req,res)=>
+app.post('/doc',async (req,res)=>
 {
 
    
-    try 
-    {
+    res.send(req.body);
 
-        await convertWordFiles('https://docs.google.com/document/d/1j17mk5Z6w2sAIElJ7cg1QR7opzOzM2mrXkfdGhMmZP0/edit?usp=sharing'), 'pdf', path.join(__dirname,'../converted');
-        var nameFile = req.file.originalname.split('.');
-        nameFile[0]=nameFile[0]+'.pdf';
-        console.log(nameFile[0]);
-        res.sendFile(path.join(__dirname,`../converted/${nameFile[0]}`),null,(err)=>
-        {
-           res.send(err);
-        })
+    // try 
+    // {
+
+    //     await convertWordFiles(), 'pdf', path.join(__dirname,'../converted');
+    //     var nameFile = req.file.originalname.split('.');
+    //     nameFile[0]=nameFile[0]+'.pdf';
+    //     console.log(nameFile[0]);
+    //     res.sendFile(path.join(__dirname,`../converted/${nameFile[0]}`),null,(err)=>
+    //     {
+    //        res.send(err);
+    //     })
 
 
-    } catch (error) 
-    {
-          res.send({
-              error:"Main error hy"
-          });    
-    } 
+    // } catch (error) 
+    // {
+    //       res.send({
+    //           error:"Main error hy"
+    //       });    
+    // } 
     
 
 
